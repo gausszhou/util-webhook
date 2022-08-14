@@ -1,24 +1,21 @@
-// 引入Express框架
 const express = require("express");
-// 引入body-parser模块
 const bodyParser = require("body-parser");
-//
 const { execSync } = require("child_process");
-//
+
 const TASKLIST = require("./tasks.json");
 const PROTOCOL = "http";
-const PORT = 10086;
-// 使用框架创建web服务器
+const PORT = 10086
 const app = express();
 
-// 配置body-parser模块
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/webhook", (req, res) => {
-  const isValid = checkRequest(req, res);
-  if (!isValid) return;
-  // post request
-  handleRequestEnd(req, res);
+app.use("*", (req, res,next) => {
+    console.log(req.query)
+    next()
+});
+
+app.get("/webhook", (req, res,next) => {
+  handleRequest(req, res);
 });
 
 const return400 = (res) => {
@@ -36,21 +33,14 @@ const return500 = (res) => {
   res.end("Server error");
 };
 
-const checkRequest = (req, res) => {
-  if (req.method !== "GET") {
-    return return400(res);
-  }
-  if (!req.query.token) return return400(res);
-  return true;
-};
-
 const executeTasks = (tasks) => {
   tasks.forEach((task) => {
+      console.log(task.name)
     task.steps.forEach((step) => {
       console.log(step);
       execSync(step.command, (error, stdout, stderr) => {
         if (error) {
-          throw error;
+           console.error(error);
         }
         if (stdout) {
           console.log(stdout);
@@ -64,7 +54,6 @@ const executeTasks = (tasks) => {
 };
 
 const handleRequestTasks = (req, res) => {
-  console.log(req.query);
   const { token } = req.query;
   const tasks = TASKLIST.filter((task) => task.token === token);
   if (!tasks.length) {
@@ -84,11 +73,11 @@ const handleRequestEnd = (req, res) => {
   if (!success) {
     return return500(res);
   }
-  // res.setHeader("Content-Type", "application/json");
+  res.setHeader("Content-Type", "application/json");
   res.send(JSON.stringify({ success: true }));
 };
 
-// 程序监听3000端口
+
 app.listen(PORT, () => {
   const IPLIST = getNetworkIp();
   IPLIST.forEach((ip) => {

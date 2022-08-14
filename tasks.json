@@ -4,7 +4,6 @@
     "name": "restart-notebook",
     "steps": [
       {
-        "name": "restart",
         "command": "bash /script/restart-notebook.sh"
       }
     ]
@@ -14,7 +13,6 @@
     "name": "restart-netease",
     "steps": [
       {
-        "name": "restart",
         "command": "bash /script/restart-netease.sh"
       }
     ]
