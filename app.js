@@ -14,7 +14,7 @@ const app = express();
 // 配置body-parser模块
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("*", (req, res) => {
+app.use("/webhook", (req, res) => {
   const isValid = checkRequest(req, res);
   if (!isValid) return;
   // post request
