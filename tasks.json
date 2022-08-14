@@ -1,11 +1,11 @@
 [
   {
-    "token": "123456",
-    "name": "hello world",
+    "token": "5FKWIY87Uml9gMkydPEai0xfbzjrneVp",
+    "name": "restart-notebook",
     "steps": [
       {
-        "name": "echo",
-        "command": "echo hello > /tmp/deploy.log"
+        "name": "restart",
+        "command": "bash /script/restart-notebook.sh"
       }
     ]
   }

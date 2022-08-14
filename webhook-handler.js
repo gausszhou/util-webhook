@@ -40,17 +40,20 @@ const checkRequest = (req, res) => {
   if (req.method !== "GET") {
     return return400(res);
   }
-  if(!req.query.token) return return400(res);
+  if (!req.query.token) return return400(res);
   return true;
 };
 
 const executeTasks = (tasks) => {
   tasks.forEach((task) => {
     task.steps.forEach((step) => {
-      console.log(step)
+      console.log(step);
       execSync(step.command, (error, stdout, stderr) => {
         if (error) {
           throw error;
+        }
+        if (stdout) {
+          console.log(stdout);
         }
         if (stderr) {
           console.error(stderr);
@@ -71,7 +74,6 @@ const handleRequestTasks = (req, res) => {
     executeTasks(tasks);
   } catch (err) {
     console.error(err);
-    process.exit()
     return false;
   }
   return true;
