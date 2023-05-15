@@ -1,19 +1,10 @@
 [
   {
     "token": "5FKWIY87Uml9gMkydPEai0xfbzjrneVp11",
-    "name": "restart-notebook",
+    "name": "hello",
     "steps": [
       {
-        "command": "bash /script/restart-notebook.sh"
-      }
-    ]
-  },
-  {
-    "token": "l1qxmXHV609nRSKtGpc2UBhFNfZ5Cwjb",
-    "name": "restart-netease",
-    "steps": [
-      {
-        "command": "bash /script/restart-netease.sh"
+        "command": "echo hello"
       }
     ]
   }
